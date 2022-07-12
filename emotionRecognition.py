@@ -1,3 +1,4 @@
+andrean
 # Importing required packages
 from keras.models import load_model
 import numpy as np
@@ -56,7 +57,7 @@ def rectPoints(rect):
     h = rect.bottom() - y
     return (x, y, w, h)
 
-
+bryan
 faceLandmarks = "faceDetection/models/dlib/shape_predictor_68_face_landmarks.dat"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(faceLandmarks)
@@ -74,6 +75,7 @@ if args["isVideoWriter"] == True:
     videoWrite = cv2.VideoWriter("output.avi", fourrcc, 22,
                                  (capWidth, capHeight))
 
+rizka
 while True:
     ret, frame = cap.read()
     frame = cv2.resize(frame, (720, 480))
@@ -100,6 +102,8 @@ while True:
         grayFace = np.expand_dims(grayFace, -1)
         emotion_prediction = emotionClassifier.predict(grayFace)
         emotion_probability = np.max(emotion_prediction)
+
+anggun
         if (emotion_probability > 0.36):
             emotion_label_arg = np.argmax(emotion_prediction)
             color = emotions[emotion_label_arg]['color']

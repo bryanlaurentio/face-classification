@@ -1,7 +1,6 @@
 # Importing required packages
 from keras.models import load_model
 import numpy as np
-import dlib
 import cv2
 
 def shapePoints(shape):
