@@ -57,21 +57,42 @@ def rectPoints(rect):
     h = rect.bottom() - y
     return (x, y, w, h)
 
-bryan
+# faceLandmarks mengarah ke path dari file bernama shape_predictor_68_face_landmarks
+# model file tersebut adalah facial point annotations yang digunakan untuk memberi anotasi 
+# pada bagian-bagian wajah tertentu, seperti mata, alis, mulut, hidung, dan lain sebagainya
 faceLandmarks = "faceDetection/models/dlib/shape_predictor_68_face_landmarks.dat"
+
+# .get_frontal_face_detector digunakan untuk mendeteksi keberadaan suatu wajah dalam frame
 detector = dlib.get_frontal_face_detector()
+
+# .shape_predictor dingunakan untuk mengambil gambar yang berisi wajah atau objek
+# dan anotasi-anotasi untuk menentukan pose dari wajah atau objek yang berasal dari shape_predictor_68_face_landmarks
 predictor = dlib.shape_predictor(faceLandmarks)
 
+# emotionModelPath mengarah ke path dari pre-trained model yaitu fer2013_mini_XCEPTION.110-0.65
+# pre-trained model ini digunakan untuk klasifikasi emosi seseorang berdasarkan titik anotasi sebelumnya
+# terdapat 7 emosi yang akan diklasifikasikan yaitu 'Angry','Disgust','Fear','Happy','Sad','Surprise','Neutral'
 emotionModelPath = 'models/emotionModel.hdf5'  # fer2013_mini_XCEPTION.110-0.65
+
+# melakukan load dari pre-trained model
 emotionClassifier = load_model(emotionModelPath, compile=False)
+
+# input_shape untuk data awal
 emotionTargetSize = emotionClassifier.input_shape[1:3]
 
+# VideoCapture(0) mengambil video dari kamera pertama (utama) dari suatu komputer
 cap = cv2.VideoCapture(0)
 
+# ketika 'isVideoWriter' bernilai True
 if args["isVideoWriter"] == True:
+    # fourcc memiliki arti 4 byte untuk menentukan codec video, MJPG berarti motion JPEG
     fourrcc = cv2.VideoWriter_fourcc("M", "J", "P", "G")
+    # mendapatkan frame lebar dari video dengan default 640x480px
     capWidth = int(cap.get(3))
+    # mendapatkan frame tinggi dari video dengan default 640x480px
     capHeight = int(cap.get(4))
+    # output video dengan parameter berturut-turut adalah 
+    # nama file, 4 codec, jumlah FPS, dan lebar tinggi frame video
     videoWrite = cv2.VideoWriter("output.avi", fourrcc, 22,
                                  (capWidth, capHeight))
 
