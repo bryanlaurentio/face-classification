@@ -144,31 +144,46 @@ while True:
         emotion_probability = np.max(emotion_prediction)
 
 anggun
+        # jika emotion probability lebih dari 0.36
         if (emotion_probability > 0.36):
+            # membuat prediksi dan menampungnya pada emotion_label_arg 
+            # berdasarkan array emotion_prediction yang memiliki nilai index maksimum 
             emotion_label_arg = np.argmax(emotion_prediction)
+            # mengakses item color pada dict emotions 
+            # dengan nilai key yang ada pada emotion_label_arg
             color = emotions[emotion_label_arg]['color']
+            # menggambar bounding box di sekitaran objek face yang terdeteksi
             cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
-            cv2.line(frame, (x, y + h), (x + 20, y + h + 20),
-                     color,
-                     thickness=2)
-            cv2.rectangle(frame, (x + 20, y + h + 20), (x + 110, y + h + 40),
-                          color, -1)
+            cv2.line(frame, (x, y + h), (x + 20, y + h + 20), color, thickness=2)
+            cv2.rectangle(frame, (x + 20, y + h + 20), (x + 110, y + h + 40), color, -1)
+            # menampilkan gambar face yang terdeteksi di frame 
+            # dengan memberikan caption/label berupa prediksi emosi 
             cv2.putText(frame, emotions[emotion_label_arg]['emotion'],
                         (x + 25, y + h + 36), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                         (255, 255, 255), 1, cv2.LINE_AA)
+        # kondisi else jika kondisi pertama tidak terpenuhi
         else:
+            # inisialisasi color dengan nilai dibawah
             color = (255, 255, 255)
+            # membuat rectangle dengan 
+            # informasi color yang didefinisikan diatas 
             cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
 
+    # jika 'isVideoWriter' bernilai True
     if args["isVideoWriter"] == True:
+        # write output frame ke file 'output.avi'
         videoWrite.write(frame)
 
+    # menampilkan output frame
     cv2.imshow("Emotion Recognition", frame)
-    k = cv2.waitKey(1) & 0xFF
+    # exit jika tombol esc ditekan 
+    k = cv2.waitKey(1) & 0xFF #hexadecimal
     if k == 27:
         break
 
+# release video capture dan video write jika semuanya telah selesai
 cap.release()
 if args["isVideoWriter"] == True:
     videoWrite.release()
+# cleanup, digunakan menutup semua frame
 cv2.destroyAllWindows()
