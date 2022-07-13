@@ -1,4 +1,7 @@
-andrean
+# andrean
+
+# mengimport library yang diperlukan
+
 # Importing required packages
 from keras.models import load_model
 import numpy as np
@@ -6,11 +9,20 @@ import argparse
 import dlib
 import cv2
 
+
+# .ArgumentParser() digunakan untuk membuat ArgumentParser object yang menyimpan informasi yang diperlukan
+# dan dimasukan saat menjalankan perintah Python di command line
 ap = argparse.ArgumentParser()
+
+# .add_argument digunakan untuk mengisi ArgumentParser dengan informasi tentang argumen program
 ap.add_argument("-vw", "--isVideoWriter", type=bool, default=False)
+
+# .parse_args() digunakan untuk menyimpan dan menggunakan informasi dari tahap sebelumnya
 args = vars(ap.parse_args())
 
 emotion_offsets = (20, 40)
+
+# dictionary berisi key dan value dari emosi
 emotions = {
     0: {
         "emotion": "Angry",
@@ -43,13 +55,20 @@ emotions = {
 }
 
 
+# fungsi ShapePoints digunakan untuk mengkonversi object ke dalam Numpy array
 def shapePoints(shape):
+
+    # inisialisasi  list koordinat (x,y)
     coords = np.zeros((68, 2), dtype="int")
+
+    # melakukan perulangan 68 landmark wajah dan mengkonversi
+    # ke dalam koordinat (x,y)
     for i in range(0, 68):
         coords[i] = (shape.part(i).x, shape.part(i).y)
     return coords
 
-
+# fungsi rectPoints digunakan untuk mengkonversi kotak persegi
+# ke dalam format (x, y, w, h)
 def rectPoints(rect):
     x = rect.left()
     y = rect.top()
