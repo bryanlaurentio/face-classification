@@ -115,20 +115,25 @@ if args["isVideoWriter"] == True:
     videoWrite = cv2.VideoWriter("output.avi", fourrcc, 22,
                                  (capWidth, capHeight))
 
-rizka
-while True:
+ # rizka  
+ while True:
+    # memuat gambar yang di input dan ubah ukurannya
     ret, frame = cap.read()
     frame = cv2.resize(frame, (720, 480))
-
     if not ret:
         break
-
+        
+    # convert BGR ke HSV (mengubah ke grayscale)
     grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     rects = detector(grayFrame, 0)
     for rect in rects:
+        # Menentukan titik-titik wajah pada area wajah
         shape = predictor(grayFrame, rect)
+        # Menandai wajah dengan  koordinat (x, y)
         points = shapePoints(shape)
+        # Mendefiniskan kotak pembatas di sekitar wajah yang terdeteksi pada gambar
         (x, y, w, h) = rectPoints(rect)
+        # Gambar indeks wajah
         grayFace = grayFrame[y:y + h, x:x + w]
         try:
             grayFace = cv2.resize(grayFace, (emotionTargetSize))
