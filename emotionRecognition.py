@@ -116,7 +116,7 @@ if args["isVideoWriter"] == True:
                                  (capWidth, capHeight))
 
  # rizka  
- while True:
+while True:
     # memuat gambar yang di input dan ubah ukurannya
     ret, frame = cap.read()
     frame = cv2.resize(frame, (720, 480))
@@ -148,7 +148,6 @@ if args["isVideoWriter"] == True:
         emotion_prediction = emotionClassifier.predict(grayFace)
         emotion_probability = np.max(emotion_prediction)
 
-anggun
         # jika emotion probability lebih dari 0.36
         if (emotion_probability > 0.36):
             # membuat prediksi dan menampungnya pada emotion_label_arg 
@@ -160,10 +159,10 @@ anggun
             # menggambar bounding box di sekitaran objek face yang terdeteksi
             cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
             cv2.line(frame, (x, y + h), (x + 20, y + h + 20), color, thickness=2)
-            cv2.rectangle(frame, (x + 20, y + h + 20), (x + 110, y + h + 40), color, -1)
+            cv2.rectangle(frame, (x + 20, y + h + 20), (x + 130, y + h + 40), color, -1)
             # menampilkan gambar face yang terdeteksi di frame 
             # dengan memberikan caption/label berupa prediksi emosi 
-            cv2.putText(frame, emotions[emotion_label_arg]['emotion'],
+            cv2.putText(frame, emotions[emotion_label_arg]['emotion']+ ' '+ str(round(emotion_probability,2)),
                         (x + 25, y + h + 36), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                         (255, 255, 255), 1, cv2.LINE_AA)
         # kondisi else jika kondisi pertama tidak terpenuhi
