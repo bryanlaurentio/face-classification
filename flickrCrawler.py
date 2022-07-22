@@ -6,8 +6,8 @@ import time
 from flickrapi import FlickrAPI
 from utilsFlickr.general import download_uri
 
-key = '3186e3fba9a93bdffec3acc7724b0a4e'  # Flickr API key https://www.flickr.com/services/apps/create/apply
-secret = '82b3c69df9555877'
+key = ''  # Flickr API key https://www.flickr.com/services/apps/create/apply
+secret = ''
 
 def get_urls(search='honeybees on flowers', n=100, download=False):
     t = time.time()
