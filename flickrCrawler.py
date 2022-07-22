@@ -2,9 +2,8 @@
 import argparse
 import os
 import time
-
+import requests
 from flickrapi import FlickrAPI
-from utilsFlickr.general import download_uri
 
 key = ''  # Flickr API key https://www.flickr.com/services/apps/create/apply
 secret = ''
@@ -20,7 +19,7 @@ def get_urls(search='honeybees on flowers', n=100, download=False):
                          sort='relevance')
 
     if download:
-        dir = os.getcwd() + os.sep + 'images' + os.sep + search.replace(' ', '_') + os.sep  # save directory
+        dir = os.getcwd() + os.sep + 'image_flickr' + os.sep + search.replace(' ', '_') + os.sep  # save directory
         if not os.path.exists(dir):
             os.mkdir(dir)
 
@@ -32,7 +31,9 @@ def get_urls(search='honeybees on flowers', n=100, download=False):
                 if url is None:
                     url = f"https://farm{photo.get('farm')}.staticflickr.com/{photo.get('server')}/{photo.get('id')}_{photo.get('secret')}_b.jpg"
                 if download:
-                    download_uri(url, dir)
+                    f = dir + '/' + str(i+1) + '.jpg'
+                    with open(f, 'wb') as file:
+                        file.write(requests.get(url, timeout=10).content)
                 urls.append(url)
                 print('%g/%g %s' % (i, n, url))
             except:
